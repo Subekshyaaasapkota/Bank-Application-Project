@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bank App – Login/Register</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="bar">
+        <div></div>
+        <h1>🏦 MyBank</h1>
+        <div></div>
+      </div>
+    </header>
+
+    <div class="auth-wrap">
+      <!-- Login -->
+      <form id="loginForm" class="card auth-form">
+        <h2>Login</h2>
+        <label>Phone</label>
+        <input
+          type="text"
+          id="loginPhone"
+          placeholder="10-digit phone"
+          required
+        />
+        <label>Password</label>
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="Your password"
+          required
+        />
+        <p id="loginError" class="msg error"></p>
+        <div class="section-actions">
+          <button type="submit">Login</button>
+        </div>
+        <p class="toggle" onclick="toggleRegister()">
+          Don’t have an account? Register
+        </p>
+      </form>
+
+      <!-- Register -->
+      <form id="registerForm" class="card auth-form" style="display: none">
+        <h2>Register</h2>
+        <label>Full Name</label>
+        <input type="text" id="regName" required />
+        <label>Phone</label>
+        <input
+          type="text"
+          id="regPhone"
+          placeholder="10-digit phone"
+          required
+        />
+        <label>Date of Birth</label>
+        <input type="date" id="regDob" required />
+        <label>Password</label>
+        <input
+          type="password"
+          id="regPassword"
+          placeholder="Min 8, A-Z, number & symbol"
+          required
+        />
+        <label>PIN (4 digits)</label>
+        <input type="password" id="regPin" required />
+        <p id="registerError" class="msg error"></p>
+        <div class="section-actions">
+          <button type="submit">Create account</button>
+        </div>
+        <p class="toggle" onclick="toggleLogin()">
+          Already have an account? Login
+        </p>
+      </form>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
+</html>

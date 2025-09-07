@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bank App – Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="toggle" href="landing.html">← Back</a>
+    <h1>🏦 MyBank</h1>
+    <button onclick="logout()" style="width:auto;padding:8px 12px">Logout</button>
+  </div>
+</header>
+
+<div class="container">
+  <div id="balanceCard">Balance: ₹0</div>
+
+  <!-- Profile -->
+  <div class="card">
+    <h2>👤 Profile</h2>
+    <div id="profileBox" class="msg" style="text-align:left"></div>
+  </div>
+
+  <!-- Deposit -->
+  <div class="card">
+    <h2>💰 Deposit</h2>
+    <label>Amount (₹)</label>
+    <input type="number" id="depositAmount" min="10" />
+    <button onclick="depositMoney()">Deposit</button>
+    <p id="depositMsg" class="msg"></p>
+  </div>
+
+  <!-- Withdraw -->
+  <div class="card">
+    <h2>🏧 Withdraw</h2>
+    <label>Amount (₹)</label>
+    <input type="number" id="withdrawAmount" min="10" />
+    <label>PIN</label>
+    <input type="password" id="withdrawPin" />
+    <button onclick="withdrawMoney()">Withdraw</button>
+    <p id="withdrawMsg" class="msg"></p>
+  </div>
+
+  <!-- Transfer -->
+  <div class="card">
+    <h2>🔁 Transfer</h2>
+    <label>Recipient Phone</label>
+    <input type="text" id="transferPhone" />
+    <label>Amount (₹)</label>
+    <input type="number" id="transferAmount" />
+    <label>PIN</label>
+    <input type="password" id="transferPin" />
+    <label>Bank Type</label>
+    <select id="bankType">
+      <option value="same">Same Bank</option>
+      <option value="different">Different Bank (₹11 fee)</option>
+    </select>
+    <button onclick="transferMoney()">Transfer</button>
+    <p id="transferMsg" class="msg"></p>
+  </div>
+
+  <!-- Top-up -->
+  <div class="card">
+    <h2>📱 Mobile Top-up</h2>
+    <label>Mobile Number</label>
+    <input type="text" id="topupPhone" />
+    <label>Amount (₹)</label>
+    <input type="number" id="topupAmount" />
+    <label>PIN</label>
+    <input type="password" id="topupPin" />
+    <button onclick="topupMobile()">Top-up</button>
+    <p id="topupMsg" class="msg"></p>
+  </div>
+
+  <!-- eSewa -->
+  <div class="card">
+    <h2>💳 Load eSewa</h2>
+    <label>eSewa ID</label>
+    <input type="text" id="esewaId" />
+    <label>Amount (₹)</label>
+    <input type="number" id="esewaAmount" />
+    <label>PIN</label>
+    <input type="password" id="esewaPin" />
+    <button onclick="loadEsewa()">Load</button>
+    <p id="esewaMsg" class="msg"></p>
+  </div>
+
+  <!-- Change Password -->
+  <div class="card">
+    <h2>🔑 Change Password</h2>
+    <label>Old Password</label>
+    <input type="password" id="oldPassword" />
+    <label>New Password</label>
+    <input type="password" id="newPassword" />
+    <button onclick="changePassword()">Change</button>
+    <p id="changePassMsg" class="msg"></p>
+  </div>
+
+  <!-- Transactions -->
+  <div class="card">
+    <h2>📜 Transactions</h2>
+    <table class="table" id="txTable">
+      <thead>
+        <tr>
+          <th>Date/Time</th>
+          <th>Type</th>
+          <th>Details</th>
+          <th>Amount</th>
+          <th>Balance After</th>
+        </tr>
+      </thead>
+      <tbody id="txBody"><tr><td colspan="5">Loading…</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

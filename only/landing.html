@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bank App – Landing</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header><div class="bar"><a class="toggle" href="index.html">← Back</a><h1>🏦 MyBank</h1><button onclick="logout()">Logout</button></div></header>
+
+  <div class="container">
+    <div class="card" style="text-align:center">
+      <h2>Welcome</h2>
+      <p id="userGreeting" style="margin-top:8px;"></p>
+      <div class="section-actions" style="max-width:320px;margin:10px auto 0;">
+        <button onclick="goToDashboard()">Open Dashboard</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    if(!localStorage.getItem("token")) window.location.href="index.html";
+    const name = localStorage.getItem("username") || "Customer";
+    document.getElementById("userGreeting").textContent = "Hello, " + name + "!";
+    function goToDashboard(){ window.location.href="dashboard.html"; }
+    function logout(){ localStorage.clear(); window.location.href="index.html"; }
+  </script>
+</body>
+</html>
