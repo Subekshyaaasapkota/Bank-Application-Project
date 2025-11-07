@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoute");
 const cors = require("cors");
+const url= process.env.URL ||''
 
 dotenv.config();
 const app = express();
@@ -14,7 +15,7 @@ const PORT=5000
 
 mongoose
   .connect(
-    "mongodb+srv://subekshyasapkota686_db_user:admin@bank.nt6ah60.mongodb.net/?appName=Bank"
+    url
   )
   .then(() => {
     console.log("MongoDB connected");
