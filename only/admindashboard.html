@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard – MyBank</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      /* Inline styling to make admin panel look neat */
+      body {
+        background: #f4f6fa;
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background: #0d47a1;
+        color: white;
+        padding: 15px 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      header h1 {
+        margin: 0;
+      }
+      header button {
+        background: #ff5252;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .container {
+        padding: 20px;
+      }
+      .card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      h2 {
+        color: #0d47a1;
+        margin-bottom: 10px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th,
+      td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+      }
+      th {
+        background: #e3f2fd;
+      }
+      tr:hover {
+        background: #f5f5f5;
+      }
+      .loading {
+        text-align: center;
+        font-size: 1.1em;
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>🏦 MyBank Admin Panel</h1>
+      <button onclick="logout()">Logout</button>
+    </header>
+
+    <div class="container">
+      <!-- Admin Info -->
+      <div class="card">
+        <h2>Welcome, <span id="adminName"></span> 👋</h2>
+        <p>You can view and manage users and transactions below.</p>
+      </div>
+
+      <!-- Users Section -->
+      <div class="card">
+        <h2>Registered Users</h2>
+        <div id="usersSection" class="loading">Loading users...</div>
+        <table id="usersTable" style="display: none">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Balance (Rs)</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+          <tbody id="usersBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Transactions Section -->
+      <div class="card">
+        <h2>Recent Transactions</h2>
+        <div id="txSection" class="loading">Loading transactions...</div>
+        <table id="txTable" style="display: none">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="txBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script>
+      async function loadAdminData() {
+        const token = localStorage.getItem("token");
+        const username = localStorage.getItem("username");
+
+        if (!token) {
+          alert("Unauthorized access! Please log in again.");
+          window.location.href = "index.html";
+          return;
+        }
+
+        document.getElementById("adminName").textContent = username || "Admin";
+
+        try {
+          // Fetch all users
+          const usersRes = await fetch("/api/admin/users", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const usersData = await usersRes.json();
+
+          if (usersRes.status === 401) {
+            alert("Unauthorized access! Token expired or invalid.");
+            logout();
+            return;
+          }
+
+          const usersBody = document.getElementById("usersBody");
+          const usersTable = document.getElementById("usersTable");
+          const usersSection = document.getElementById("usersSection");
+
+          if (usersData.length === 0) {
+            usersSection.textContent = "No users found.";
+          } else {
+            usersSection.style.display = "none";
+            usersTable.style.display = "table";
+            usersData.forEach((user) => {
+              const tr = document.createElement("tr");
+              tr.innerHTML = `
+                <td>${user.name}</td>
+                <td>${user.phone}</td>
+                <td>${user.balance}</td>
+                <td>${new Date(user.createdAt).toLocaleString()}</td>
+              `;
+              usersBody.appendChild(tr);
+            });
+          }
+
+          // Fetch transactions
+          const txRes = await fetch("/api/admin/transactions", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const txData = await txRes.json();
+
+          const txBody = document.getElementById("txBody");
+          const txTable = document.getElementById("txTable");
+          const txSection = document.getElementById("txSection");
+
+          if (txData.length === 0) {
+            txSection.textContent = "No transactions yet.";
+          } else {
+            txSection.style.display = "none";
+            txTable.style.display = "table";
+            txData.forEach((tx) => {
+              const tr = document.createElement("tr");
+              tr.innerHTML = `
+                <td>${tx.userName || "Unknown"}</td>
+                <td>${tx.type}</td>
+                <td>${tx.amount}</td>
+                <td>${new Date(tx.date).toLocaleString()}</td>
+              `;
+              txBody.appendChild(tr);
+            });
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Failed to load admin data.");
+        }
+      }
+
+      function logout() {
+        localStorage.clear();
+        window.location.href = "index.html";
+      }
+
+      loadAdminData();
+    </script>
+  </body>
+</html>

@@ -27,9 +27,10 @@
   <div class="card">
     <h2>💰 Deposit</h2>
     <label>Amount (₹)</label>
-    <input type="number" id="depositAmount" min="10" />
-    <button onclick="depositMoney()">Deposit</button>
     <p id="depositMsg" class="msg"></p>
+        <label>PIN</label>
+    <input type="password" id="withdrawPin" />
+    <button onclick="depositMoney()">Deposit</button>
   </div>
 
   <!-- Withdraw -->
@@ -97,6 +98,17 @@
     <button onclick="changePassword()">Change</button>
     <p id="changePassMsg" class="msg"></p>
   </div>
+  <div class="card">
+  <h2>🧭 Forgot Password</h2>
+  <label>Phone Number</label>
+  <input type="text" id="forgotPhone" placeholder="Enter your registered phone" />
+
+  <label>New Password</label>
+  <input type="password" id="forgotNewPassword" placeholder="Enter new password" />
+
+  <button onclick="forgotPassword()">Reset Password</button>
+  <p id="forgotPassMsg" class="msg"></p>
+</div>
 
   <!-- Transactions -->
   <div class="card">

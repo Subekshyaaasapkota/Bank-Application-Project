@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
   phone: { type: String, unique: true, required: true },
   pin: { type: String, required: true },
   password: { type: String, required: true },
+  isAdmin: { type: Boolean, required: false, default: false},
   balance: { type: Number, default: 100 },
   createdAt: { type: Date, default: Date.now },
   transactions: { type: [transactionSchema], default: [] },

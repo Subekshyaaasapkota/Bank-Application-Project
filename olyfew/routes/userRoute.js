@@ -4,6 +4,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware.js/auth");
+const { checkPermission } = require("../middleware.js/checkpermission");
 
 // Helper - Password validation
 function isValidPassword(password) {
@@ -89,11 +90,15 @@ router.post("/login", async (req, res) => {
     });
 
     // Send response
-    res.json({
-      token,
-      name: user.name,
-      phone: user.phone,
-    });
+   res.json({
+  token,
+  user: {
+    username: user.name,
+    phone: user.phone,
+    isAdmin: user.isAdmin, // 👈 send this
+  },
+});
+
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ msg: "Server error", error: err.message });
